@@ -362,18 +362,12 @@ public class MaplableActivity extends MapActivity implements RadioGroup.OnChecke
 		           public void onClick(DialogInterface dialog, int which) {	
 		        	   int index;
 		        	   index = Integer.valueOf(item.getSnippet());
-//		        	   InterestArea[] interestAreas = new InterestArea[3];
-//		        	   interestAreas[index].setName(item.getTitle());
-//		        	   //radius 5
-//		        	   interestAreas[index].setLocation(new LocationInfo((double)p.getLatitudeE6()/1000000, (double)p.getLongitudeE6()/1000000, 5));
-//		        	   interestAreas[index].setSeverity(flags);	
-		        	   
-		        	   
-		        	   Intent intent = new Intent();
-		        	   InterestArea[] interestAreas2 = new InterestArea[3];
-		        	
-		        	   interestAreas2[index] = new InterestArea(item.getTitle(),(new LocationInfo((double)p.getLatitudeE6()/1000000, (double)p.getLongitudeE6()/1000000, 5)),flags);
-		        	   intent.putExtra("key", interestAreas2);
+		        	   InterestArea[] interestAreas = new InterestArea[3];
+		        	   interestAreas[index].setName(item.getTitle());
+		        	   //radius 5
+		        	   interestAreas[index].setLocation(new LocationInfo((double)p.getLatitudeE6()/1000000, (double)p.getLongitudeE6()/1000000, 5));
+		        	   interestAreas[index].setSeverity(flags);	
+
 		        	   
 		        	   return;
 		           }

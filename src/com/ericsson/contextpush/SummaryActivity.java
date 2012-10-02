@@ -100,11 +100,6 @@ public class SummaryActivity extends Activity{
         	}
         }
         
-        
-        Intent intent = new Intent();
-        // load object of serialization
-        InterestArea[] interestAreas2 = (InterestArea[])intent.getExtras().getSerializable("key");
-        
     }
     
     Button.OnClickListener mClickListener = new View.OnClickListener() {
