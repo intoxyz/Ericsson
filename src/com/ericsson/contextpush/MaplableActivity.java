@@ -48,6 +48,9 @@ public class MaplableActivity extends MapActivity implements RadioGroup.OnChecke
 		private int pinCnt;
 		private boolean[] locaChecked = {false, false, false};
 		
+		private InterestArea[] interestAreas; 
+		private boolean flags[] = {false, false , false, false };// default set or policy
+		
 		LocationManager lm;
 		Location location;
 			
@@ -80,6 +83,7 @@ public class MaplableActivity extends MapActivity implements RadioGroup.OnChecke
 			mNextBtn.setOnClickListener(mClickListener);
 	        						
 	        gd = new GestureDetector(MaplableActivity.this);
+	        interestAreas = new InterestArea[3];
 	        
 		}
 		
@@ -275,6 +279,9 @@ public class MaplableActivity extends MapActivity implements RadioGroup.OnChecke
 		
 		private void onShowDialog(final OverlayItem item, String title) {
 			
+			boolean templateFlags[];
+			int index;
+			
 			LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 	        final View layout = inflater.inflate(R.layout.policysetting, (ViewGroup)findViewById(R.id.explaintxt));
 	        
@@ -286,7 +293,6 @@ public class MaplableActivity extends MapActivity implements RadioGroup.OnChecke
 			txtExplanation.setTextColor(Color.BLACK);
 	        
 			final String policies[] = {"Warning", "Minor", "Medium", "Major"};// item shown
-			final boolean flags[] = {false, false , false, false };// default set
 	        	 
 	        AlertDialog.Builder aDialog = new AlertDialog.Builder(MaplableActivity.this);
 	        if(item != null){
@@ -297,7 +303,16 @@ public class MaplableActivity extends MapActivity implements RadioGroup.OnChecke
 	        }
 	        aDialog.setView(layout);
 	        
-			aDialog.setMultiChoiceItems(policies, flags, new DialogInterface.OnMultiChoiceClickListener(){
+	        index = Integer.valueOf(item.getSnippet());
+	        
+	        if(locaChecked[index]){
+	        	templateFlags = flags;
+			}
+	        else{
+	        	templateFlags = interestAreas[index].getSeverity();
+	        }
+	        
+	        	aDialog.setMultiChoiceItems(policies, templateFlags, new DialogInterface.OnMultiChoiceClickListener(){
 				@Override
 				public void onClick(DialogInterface dialog, int which,boolean isChecked) {
 					String level = null;
@@ -361,14 +376,10 @@ public class MaplableActivity extends MapActivity implements RadioGroup.OnChecke
 		           @Override
 		           public void onClick(DialogInterface dialog, int which) {	
 		        	   int index;
-		        	   index = Integer.valueOf(item.getSnippet());
-		        	   InterestArea[] interestAreas = new InterestArea[3];
-		        	   interestAreas[index].setName(item.getTitle());
-		        	   //radius 5
-		        	   interestAreas[index].setLocation(new LocationInfo((double)p.getLatitudeE6()/1000000, (double)p.getLongitudeE6()/1000000, 5));
-		        	   interestAreas[index].setSeverity(flags);	
-
 		        	   
+		        	   index = Integer.valueOf(item.getSnippet());
+		        	   interestAreas[index] = new InterestArea(item.getTitle(), new LocationInfo((double)p.getLatitudeE6()/1000000, (double)p.getLongitudeE6()/1000000, 5), flags);
+	        	   
 		        	   return;
 		           }
 		    });
@@ -426,6 +437,7 @@ public class MaplableActivity extends MapActivity implements RadioGroup.OnChecke
 			
 		}
 
+		//cannot use this since we have tap method
 		@Override
 		public boolean onSingleTapUp(MotionEvent e) {
 			return false;
