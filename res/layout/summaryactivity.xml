@@ -1,0 +1,70 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <Button
+        android:id="@+id/UnSubscription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:text="Unsubscribe the Service" />
+
+    <Button
+        android:id="@+id/Subscription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/UnSubscription"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:text="Let me Get The Alert Msg" />
+
+    <TextView
+        android:id="@+id/emailTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:text="Email Address" />
+
+    <TextView
+        android:id="@+id/reviewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="78dp"
+        android:text="Review Policy" />
+
+    <TextView
+        android:id="@+id/explanationView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/Subscription"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="57dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/displayView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/Subscription"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="26dp"
+        android:text="TextView" />
+
+    <EditText
+        android:id="@+id/emailAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/emailTitle"
+        android:ems="10"
+        android:inputType="textEmailAddress" >
+
+        <requestFocus />
+    </EditText>
+
+</RelativeLayout>

@@ -1,0 +1,296 @@
+package com.ericsson.contextpush;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.android.maps.GeoPoint;
+import com.google.android.maps.ItemizedOverlay;
+import com.google.android.maps.MapActivity;
+import com.google.android.maps.MapController;
+import com.google.android.maps.MapView;
+import com.google.android.maps.MyLocationOverlay;
+import com.google.android.maps.Overlay;
+import com.google.android.maps.OverlayItem;
+
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class CopyOfMaplableActivity2 extends MapActivity implements View.OnClickListener{
+		 
+		private MapView map = null;
+		private MyLocationOverlay me = null;
+		private ImageView mIcnhomeMore;
+		
+		Animation translateLeftAnim;
+		Context mContext;
+		AlertDialog.Builder alertDialog;
+	 
+		@Override
+		protected void onCreate(Bundle savedInstanceState) {
+			// TODO Auto-generated method stub
+			super.onCreate(savedInstanceState);
+			setContentView(R.layout.maplableactivity);
+	 
+	 
+			map = (MapView) findViewById(R.id.mapview);
+	 
+	 
+			map.getController().setCenter(getPoint(37.457933, 126.95121));
+			map.getController().setZoom(21);
+	 
+			Drawable marker = getResources().getDrawable(R.drawable.point);
+			marker.setBounds(0, 0, marker.getIntrinsicWidth(), marker
+					.getIntrinsicHeight());
+			map.getOverlays().add(new SitesOverlay(marker));
+	 
+			me = new MyLocationOverlay(this, map);
+			map.getOverlays().add(me);
+	 
+	 
+			map.postInvalidate();
+			
+			//policy viwe
+	        mIcnhomeMore = (ImageView)findViewById(R.id.icnhomemore);
+	        mIcnhomeMore.setOnClickListener(this);
+		}
+	 
+		@Override
+		public void onResume() {
+			super.onResume();
+	 
+			me.enableCompass();
+		}
+	 
+		@Override
+		public void onPause() {
+			super.onPause();
+	 
+			me.disableCompass();
+		}
+	 
+		@Override
+		protected boolean isLocationDisplayed() {
+			// TODO Auto-generated method stub
+			return false;
+		}
+		protected boolean isRouteDisplayed() {
+			return false;
+		}
+	 	 
+		@Override
+		public boolean onKeyDown(int keyCode, KeyEvent event) {
+			if (keyCode == KeyEvent.KEYCODE_S) {
+				map.setSatellite(!map.isSatellite());
+				return (true);
+			} else if (keyCode == KeyEvent.KEYCODE_Z) {
+				map.displayZoomControls(true);
+				return (true);
+			}
+	 
+			return (super.onKeyDown(keyCode, event));
+		}
+	 
+		private GeoPoint getPoint(double lat, double lon) {
+			return (new GeoPoint((int) (lat * 1000000.0), (int) (lon * 1000000.0)));
+		}
+	 
+		private class SitesOverlay extends ItemizedOverlay<OverlayItem> {
+	 
+			private List<OverlayItem> items = new ArrayList<OverlayItem>();
+			private Drawable marker = null;
+	 
+			public SitesOverlay(Drawable marker) {
+	 
+				super(marker);
+	 
+				this.marker = marker;
+	 
+				items.add(new OverlayItem(getPoint(37.458576, 126.95097),
+						"HOME", "GG"));
+				items.add(new OverlayItem(getPoint(37.45765, 126.95132),
+						"WORK", "GG2"));
+				items.add(new OverlayItem(getPoint(37.45763, 126.95079),
+						"OTHER", "GG3"));
+	 
+				populate();
+	 
+			}
+	 
+			@Override
+			protected OverlayItem createItem(int i) {
+				return (items.get(i));
+			}
+	 
+			@Override
+			public void draw(Canvas canvas, MapView mapView, boolean shadow) {
+				super.draw(canvas, mapView, shadow);
+	 
+				boundCenterBottom(marker);
+			}
+	 
+			@Override
+			protected boolean onTap(int i) {
+	 
+				OverlayItem layItem = items.get(i);
+	 
+				onShowDialog(layItem);
+	 
+				return true;
+			}
+	 
+			@Override
+			public int size() {
+				return (items.size());
+			}
+		}//SitesOverlay
+	 
+	 
+		private void onShowDialog(OverlayItem item) {
+									
+			LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+	        final View layout = inflater.inflate(R.layout.policysetting, (ViewGroup)findViewById(R.id.warningchk));
+	        
+//	        CheckBox chkWarning, chkMajor, chkMinor, chkMedium;
+//	        final TextView txtExplaination, txtSummary;
+//	        
+//	        chkWarning = (CheckBox) layout.findViewById(R.id.warningchk);
+//			chkMajor = (CheckBox) layout.findViewById(R.id.majorchk);
+//			chkMinor = (CheckBox) layout.findViewById(R.id.minorchk);
+//			chkMedium = (CheckBox) layout.findViewById(R.id.mediumchk);
+//			txtSummary = (TextView) layout.findViewById(R.id.summarytxt);
+//			txtExplaination = (TextView) layout.findViewById(R.id.explaintxt);
+//			
+//			txtSummary.setTextColor(Color.BLACK);
+//			txtExplaination.setTextColor(Color.BLACK);
+//	        
+//			//TODO: re-factoring
+//	        chkWarning.setOnClickListener(new OnClickListener(){
+//
+//				@Override
+//				public void onClick(View v) {
+//					txtExplaination.setText("Warning Definition");
+//				}
+//	        	
+//	        });
+//	        
+//	        chkMajor.setOnClickListener(new OnClickListener(){
+//
+//				@Override
+//				public void onClick(View v) {
+//					txtExplaination.setText("Major Definition");
+//				}
+//	        	
+//	        });
+//	        
+//	        chkMinor.setOnClickListener(new OnClickListener(){
+//
+//				@Override
+//				public void onClick(View v) {
+//					txtExplaination.setText("Minor Definition");
+//				}
+//	        	
+//	        });
+//	        
+//	        chkMedium.setOnClickListener(new OnClickListener(){
+//
+//				@Override
+//				public void onClick(View v) {
+//					txtExplaination.setText("Medium Definition");
+//				}
+//	        	
+//	        });
+	        
+			final String policies[] = {"Warning", "Major", "Medium", "Minor"};// item shown
+			final boolean flags[] = {false,  true , false, false };// default set
+	        	 
+	        AlertDialog.Builder aDialog = new AlertDialog.Builder(CopyOfMaplableActivity2.this);
+	        aDialog.setTitle("Policy Setting");
+	        aDialog.setView(layout);
+	        
+			aDialog.setMultiChoiceItems(policies, flags, new DialogInterface.OnMultiChoiceClickListener(){
+				@Override
+				public void onClick(DialogInterface dialog, int which,boolean isChecked) {
+					Toast.makeText(CopyOfMaplableActivity2.this, policies[which]+" which = "+which+" isChecked="+isChecked, 0).show();
+				}
+			});
+	               
+	        aDialog.setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
+	   
+		           @Override
+		           public void onClick(DialogInterface dialog, int which) {	
+		        	   //chkWarning.isChecked();
+		        	   //chkMajor.isChecked();
+		        	   //chkMedium.isChecked();
+		        	   //chkMinor.isChecked();
+		        	   
+		        	   return;
+		           }
+		    });
+	       
+	        aDialog.setNegativeButton("BACK", new DialogInterface.OnClickListener() {
+	   
+		           @Override
+		           public void onClick(DialogInterface dialog, int which) {
+		        	   
+		        	   return;    
+		           }
+		    });
+	       
+	        AlertDialog ad = aDialog.create();
+	        ad.show();
+	 
+		}// Dialog		
+
+		@Override
+		public void onClick(View v) {
+			 final String policies[] = {"Warning", "Major", "Medium", "Minor"};// item shown
+		     final boolean flags[] = {false,  true , false, false };// default set
+		     AlertDialog.Builder aDialog =  new AlertDialog.Builder(this);
+		     aDialog.setTitle("Default Policy");
+		     aDialog.setMultiChoiceItems(policies, flags, new DialogInterface.OnMultiChoiceClickListener(){
+		    	 @Override
+		    	 public void onClick(DialogInterface dialog, int which,boolean isChecked) {
+		    		 Toast.makeText(CopyOfMaplableActivity2.this, policies[which]+" which = "+which+" isChecked="+isChecked, 0).show();
+		    	 }
+		     });
+		     
+	        aDialog.setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
+	     	   
+		           @Override
+		           public void onClick(DialogInterface dialog, int which) {	
+		        	   
+		        	   return;
+		           }
+		    });
+	       
+	        aDialog.setNegativeButton("BACK", new DialogInterface.OnClickListener() {
+	   
+		           @Override
+		           public void onClick(DialogInterface dialog, int which) {
+		        	   
+		        	   return;    
+		           }
+		    });
+	       
+	        AlertDialog ad = aDialog.create();
+		    ad.show();
+		}
+	
+}

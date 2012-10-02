@@ -1,0 +1,58 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:context=".MaplableActivity" >
+    
+
+
+    <com.google.android.maps.MapView
+        android:id="@+id/mapview"
+        style="@style/mapView"
+        android:layout_width="fill_parent"
+        android:layout_height="440dp"
+        android:apiKey="0E6Q1v8Bg5KfBVs7IVA9r6KKQWuUDHWmkSVGfNw"
+        android:clickable="true" />
+
+    <Button
+        android:id="@+id/nextBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:text="NEXT" />
+    
+	<RadioGroup
+	    android:id="@+id/radio"
+	    android:layout_width="wrap_content"
+	    android:layout_height="40dp"
+	    android:layout_above="@+id/nextBtn"
+	    android:layout_alignParentLeft="true"
+	    android:orientation="horizontal">
+	    
+		<RadioButton
+	        android:id="@+id/homeradioBt"
+	        android:layout_width="120dp"
+	        android:layout_height="wrap_content"
+	        android:checked="true"
+	        android:text="HOME"
+	        android:button="@drawable/android_radio_a"/>
+	    
+	    <RadioButton
+	        android:id="@+id/workradioBt"
+	        android:layout_width="120dp"
+	        android:layout_height="wrap_content"
+	        android:text="WORK"
+	        android:button="@drawable/android_radio_b"/>
+	        
+	    <RadioButton
+	        android:id="@+id/otherradioBt"
+	        android:layout_width="120dp"
+	        android:layout_height="wrap_content"
+	        android:text="OTHER" 
+			android:button="@drawable/android_radio_c"/>	    
+	</RadioGroup>
+    
+
+</RelativeLayout>
