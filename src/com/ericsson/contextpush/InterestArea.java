@@ -1,19 +1,15 @@
 package com.ericsson.contextpush;
 
-import java.io.Serializable;
-
-public class InterestArea implements Serializable {
-	
-	private static final long serialVersionUID = 1L; //version name
+public class InterestArea {
 	
 	public String name;
 	public LocationInfo location;
-	public boolean severity[] = {false, false, false, false};
+	public boolean[] severity;
 	
-	public InterestArea(String _name, LocationInfo _location, boolean _severity[]){
+	public InterestArea(String _name, LocationInfo _location, boolean[] _severity){
 		name = _name;
 		location = _location;
-		severity = _severity;
+		severity = _severity.clone();
 	}
 	
 	public String getName() {

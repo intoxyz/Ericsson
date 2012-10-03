@@ -305,7 +305,7 @@ public class MaplableActivity extends MapActivity implements RadioGroup.OnChecke
 	        
 	        index = Integer.valueOf(item.getSnippet());
 	        
-	        if(locaChecked[index]){
+	        if(interestAreas[index] == null){
 	        	templateFlags = flags;
 			}
 	        else{
@@ -380,6 +380,7 @@ public class MaplableActivity extends MapActivity implements RadioGroup.OnChecke
 		        	   index = Integer.valueOf(item.getSnippet());
 		        	   interestAreas[index] = new InterestArea(item.getTitle(), new LocationInfo((double)p.getLatitudeE6()/1000000, (double)p.getLongitudeE6()/1000000, 5), flags);
 	        	   
+		        	   flags = new boolean[]{false,false,false,false};
 		        	   return;
 		           }
 		    });
